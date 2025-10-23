@@ -50,67 +50,72 @@ export const Header = () => {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md border-b border-border" : "bg-transparent"
-      }`}
-    >
-      <nav className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="text-2xl font-light tracking-wider">
-            <span className="text-gradient">LUX</span>
-            <span className="text-foreground">ESTATE</span>
-          </div>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-background/95 backdrop-blur-md border-b border-border" : "bg-transparent"
+        }`}
+      >
+        <nav className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="text-2xl font-light tracking-wider">
+              <span className="text-gradient">LUX</span>
+              <span className="text-foreground">ESTATE</span>
+            </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              {navigation.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavigation(item.href, item.isRoute)}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm tracking-wide"
+                >
+                  {item.name}
+                </button>
+              ))}
+              <Button
+                onClick={() => handleNavigation("#contact", false)}
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                Связаться
+              </Button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-foreground z-50"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-background/98 backdrop-blur-lg">
+          <div className="flex flex-col items-center justify-center h-full space-y-8 px-6">
             {navigation.map((item) => (
               <button
                 key={item.name}
                 onClick={() => handleNavigation(item.href, item.isRoute)}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm tracking-wide"
+                className="text-2xl text-muted-foreground hover:text-primary transition-colors duration-300"
               >
                 {item.name}
               </button>
             ))}
             <Button
               onClick={() => handleNavigation("#contact", false)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-full max-w-xs bg-primary text-primary-foreground hover:bg-primary/90"
+              size="lg"
             >
               Связаться
             </Button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4">
-            {navigation.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleNavigation(item.href, item.isRoute)}
-                className="block w-full text-left text-muted-foreground hover:text-primary transition-colors duration-300 py-2"
-              >
-                {item.name}
-              </button>
-            ))}
-            <Button
-              onClick={() => handleNavigation("#contact", false)}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              Связаться
-            </Button>
-          </div>
-        )}
-      </nav>
-    </header>
+      )}
+    </>
   );
 };
