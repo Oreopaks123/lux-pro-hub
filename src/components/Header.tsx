@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
-  { name: "Главная", href: "#hero" },
-  { name: "Обо мне", href: "#about" },
-  { name: "Объявления", href: "#listings" },
-  { name: "Отзывы", href: "#testimonials" },
-  { name: "Контакты", href: "#contact" },
+  { name: "Главная", href: "#hero", isRoute: false },
+  { name: "Обо мне", href: "#about", isRoute: false },
+  { name: "Объявления", href: "/listings", isRoute: true },
+  { name: "Отзывы", href: "#testimonials", isRoute: false },
+  { name: "Контакты", href: "#contact", isRoute: false },
 ];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,10 +25,26 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleNavigation = (href: string, isRoute: boolean) => {
+    if (isRoute) {
+      navigate(href);
+      setIsMobileMenuOpen(false);
+    } else {
+      // If we're not on the home page, navigate there first
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
       setIsMobileMenuOpen(false);
     }
   };
@@ -48,14 +67,14 @@ export const Header = () => {
             {navigation.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href, item.isRoute)}
                 className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm tracking-wide"
               >
                 {item.name}
               </button>
             ))}
             <Button
-              onClick={() => scrollToSection("#contact")}
+              onClick={() => handleNavigation("#contact", false)}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Связаться
@@ -77,14 +96,14 @@ export const Header = () => {
             {navigation.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href, item.isRoute)}
                 className="block w-full text-left text-muted-foreground hover:text-primary transition-colors duration-300 py-2"
               >
                 {item.name}
               </button>
             ))}
             <Button
-              onClick={() => scrollToSection("#contact")}
+              onClick={() => handleNavigation("#contact", false)}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Связаться

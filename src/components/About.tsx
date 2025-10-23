@@ -1,4 +1,5 @@
 import { Award, Heart, Shield, TrendingUp } from "lucide-react";
+import profilePhoto from "@/assets/profile-photo.jpg";
 
 const features = [
   {
@@ -27,15 +28,51 @@ export const About = () => {
   return (
     <section id="about" className="py-24 md:py-32">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-light mb-6">
+        <div className="max-w-5xl mx-auto mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-light mb-12 text-center">
             Обо <span className="text-gradient">мне</span>
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Специализируюсь на работе с элитной недвижимостью, премиальными автомобилями и 
-            ювелирными изделиями класса люкс. Моя цель — не просто продать объект, а найти 
-            идеальное решение, которое превзойдет ваши ожидания.
-          </p>
+          
+          {/* Profile Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="relative">
+              <div className="aspect-[3/4] overflow-hidden rounded-lg luxury-glow">
+                <img
+                  src={profilePhoto}
+                  alt="Чиков Артур Артурович"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-3xl font-light mb-2">
+                  Чиков Артур Артурович
+                </h3>
+                <p className="text-primary text-lg">
+                  Риелтор премиум-класса
+                </p>
+              </div>
+              
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>
+                  Специализируюсь на работе с элитной недвижимостью, премиальными автомобилями и 
+                  ювелирными изделиями класса люкс. Моя цель — не просто продать объект, а найти 
+                  идеальное решение, которое превзойдет ваши ожидания.
+                </p>
+                <p>
+                  За годы работы я построил репутацию надежного партнера, который ценит доверие клиентов 
+                  и индивидуальный подход к каждой сделке. Работаю только с проверенными объектами высшего 
+                  качества и предоставляю полное юридическое сопровождение.
+                </p>
+                <p>
+                  Моя миссия — помогать людям находить не просто недвижимость, автомобили или драгоценности, 
+                  а настоящие инвестиции в комфорт, статус и будущее.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
