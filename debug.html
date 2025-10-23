@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { padding: 10px; margin: 10px 0; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>GitHub Pages Debug</h1>
+    
+    <div class="test">
+        <h3>1. Проверка базового пути</h3>
+        <p>Текущий URL: <span id="current-url"></span></p>
+        <p>Ожидаемый базовый путь: /lux-pro-hub/</p>
+    </div>
+    
+    <div class="test">
+        <h3>2. Проверка загрузки ресурсов</h3>
+        <p>JavaScript: <span id="js-status">Проверяем...</span></p>
+        <p>CSS: <span id="css-status">Проверяем...</span></p>
+    </div>
+    
+    <div class="test">
+        <h3>3. Проверка React приложения</h3>
+        <p>Root элемент: <span id="root-status">Проверяем...</span></p>
+    </div>
+    
+    <div class="test">
+        <h3>4. Ссылки для проверки</h3>
+        <p><a href="/lux-pro-hub/">Основной сайт</a></p>
+        <p><a href="/lux-pro-hub/assets/index-aX1z2hqb.js">JavaScript файл</a></p>
+        <p><a href="/lux-pro-hub/assets/index-CaiFAWke.css">CSS файл</a></p>
+    </div>
+
+    <script>
+        // Показываем текущий URL
+        document.getElementById('current-url').textContent = window.location.href;
+        
+        // Проверяем загрузку JavaScript
+        fetch('/lux-pro-hub/assets/index-aX1z2hqb.js')
+            .then(response => {
+                document.getElementById('js-status').textContent = response.ok ? '✅ Загружается' : '❌ Ошибка';
+                document.getElementById('js-status').className = response.ok ? 'success' : 'error';
+            })
+            .catch(() => {
+                document.getElementById('js-status').textContent = '❌ Ошибка загрузки';
+                document.getElementById('js-status').className = 'error';
+            });
+        
+        // Проверяем загрузку CSS
+        fetch('/lux-pro-hub/assets/index-CaiFAWke.css')
+            .then(response => {
+                document.getElementById('css-status').textContent = response.ok ? '✅ Загружается' : '❌ Ошибка';
+                document.getElementById('css-status').className = response.ok ? 'success' : 'error';
+            })
+            .catch(() => {
+                document.getElementById('css-status').textContent = '❌ Ошибка загрузки';
+                document.getElementById('css-status').className = 'error';
+            });
+        
+        // Проверяем root элемент
+        setTimeout(() => {
+            const root = document.getElementById('root');
+            if (root) {
+                document.getElementById('root-status').textContent = '✅ Найден';
+                document.getElementById('root-status').className = 'success';
+            } else {
+                document.getElementById('root-status').textContent = '❌ Не найден';
+                document.getElementById('root-status').className = 'error';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
